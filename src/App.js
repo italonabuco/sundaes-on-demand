@@ -1,5 +1,7 @@
+import Options from "./pages/entry/Options";
+
 function App() {
-  return <h1>Sundaes on Demand</h1>;
+  return <Options optionType="scoops" />;
 }
 
 export default App;
