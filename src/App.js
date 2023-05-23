@@ -1,7 +1,5 @@
-import Options from "./pages/entry/Options";
-
 function App() {
-  return <Options optionType="scoops" />;
+  return <div />;
 }
 
 export default App;
