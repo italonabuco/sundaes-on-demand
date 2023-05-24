@@ -1,5 +1,5 @@
 import { rest } from "msw";
-import { API_URL, apiUrl } from "../constants";
+import { apiUrl } from "../constants";
 
 export const handlers = [
   rest.get(apiUrl("/scoops"), async (req, res, ctx) => {
@@ -20,5 +20,8 @@ export const handlers = [
         { name: "Hot fudge", imagePath: "/images/hot-fudge.png" },
       ])
     );
+  }),
+  rest.post(apiUrl("/order"), async (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json({ orderNumber: "1234" }));
   }),
 ];

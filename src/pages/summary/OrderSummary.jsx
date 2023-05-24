@@ -1,9 +1,24 @@
+import axios from "axios";
 import { useOrderDetails } from "../../contexts/OrderDetails";
 import { formatCurrency } from "../../utilities";
 import SummaryForm from "./SummaryForm";
+import { apiUrl } from "../../constants";
 
-export default function OrderSummary() {
-  const { totals, optionsCounts } = useOrderDetails;
+export default function OrderSummary({ onOrder }) {
+  const { totals, optionsCounts, resetOrder } = useOrderDetails();
+
+  const handleConfirmOrder = () => {
+    axios
+      .post(apiUrl("/order"))
+      .then((res) => {
+        onOrder(res.data.orderNumber);
+        resetOrder();
+      })
+      .catch((e) => {
+        //TODO: handle error
+        console.error(e);
+      });
+  };
 
   const scoopList = Object.entries(optionsCounts.scoops).map(([key, value]) => (
     <li key={key}>
@@ -17,12 +32,13 @@ export default function OrderSummary() {
 
   return (
     <div>
-      <h1>OrderSummary</h1>
+      <h1>Order Summary</h1>
       <h2>Scoops: {formatCurrency(totals.scoops)}</h2>
       <ul>{scoopList}</ul>
       <h2>Toppings: {formatCurrency(totals.toppings)}</h2>
       <ul>{toppingList}</ul>
-      <SummaryForm />
+      <h2>Total: {formatCurrency(totals.scoops + totals.toppings)}</h2>
+      <SummaryForm onOrder={handleConfirmOrder} />
     </div>
   );
 }
