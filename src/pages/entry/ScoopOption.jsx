@@ -6,7 +6,8 @@ import { useOrderDetails } from "../../contexts/OrderDetails";
 
 export default function ScoopOption({ name, imagePath }) {
   const { updateItemCount } = useOrderDetails();
-  const handleChange = (e) => updateItemCount(name, +e.target.value, "scoops");
+  const handleChange = (e) =>
+    updateItemCount(name, Math.max(+e.target.value, 0), "scoops");
 
   return (
     <Col xs={12} sm={6} md={4} lg={3} style={{ textAlign: "center" }}>
