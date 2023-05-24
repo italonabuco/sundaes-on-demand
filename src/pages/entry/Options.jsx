@@ -15,12 +15,23 @@ export default function Options({ optionType }) {
 
   //options type is 'scoops' or 'toppings'
   useEffect(() => {
+    // create an abortController to attach to network request
+    // this avoid the testing error
+    // Warning: An update to Options inside a test was not wrapped in act(...)
+    const controller = new AbortController();
     axios
-      .get(`${API_URL}/${optionType}`)
+      .get(`${API_URL}/${optionType}`, { signal: controller.signal })
       .then((res) => setItems(res.data))
       .catch((error) => {
-        setError(true);
+        //avoid error out on re-render
+        if (error.name !== "CanceledError") {
+          setError(true);
+        }
       });
+
+    return () => {
+      controller.abort();
+    };
   }, [optionType]);
 
   if (error) {

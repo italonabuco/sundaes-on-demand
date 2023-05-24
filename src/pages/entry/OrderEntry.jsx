@@ -9,7 +9,9 @@ export default function OrderEntry() {
     <>
       <Options optionType="scoops" />
       <Options optionType="toppings" />
-      <h2>Grand Total: {formatCurrency(scoops + toppings)}</h2>
+      <h2 style={{ marginTop: 20 }}>
+        Grand Total: {formatCurrency(scoops + toppings)}
+      </h2>
     </>
   );
 }

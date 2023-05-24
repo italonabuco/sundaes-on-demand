@@ -87,11 +87,16 @@ test("update topping subtotal when toppings changes", async () => {
 
 describe("grand total", () => {
   test("grand total starts at $0.0", () => {
-    render(<OrderEntry />);
+    const { unmount } = render(<OrderEntry />);
     const grandTotal = screen.getByRole("heading", {
       name: /grand total: \$/i,
     });
     expect(grandTotal).toHaveTextContent("0.00");
+
+    // this avoid the testing error
+    // Warning: An update to Options inside a test was not wrapped in act(...)
+    // normally related to useEffect async calls
+    unmount();
   });
 
   test("grand total updates properly if scoop is added first", async () => {
